@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+    <div>
+      <p class="text-uppercase small fw-bold text-primary mb-1">Request details</p>
+      <h2 class="text-primary mb-0">{{ request.category }}</h2>
+    </div>
+    <span class="badge status-badge {{ request.status if request.status in ['accepted','in_progress','completed'] else 'requested' }}">{{ request.status|title }}</span>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-lg-8">
+      <div class="card dashboard-card shadow-sm border-0">
+        <div class="card-body">
+          <div class="request-meta">
+            <div><span>Elderly person</span><strong>{{ elder.name if elder else 'Unknown' }}</strong></div>
+            <div><span>Age</span><strong>{{ elder.age if elder else 'N/A' }}</strong></div>
+            <div><span>Request type</span><strong>{{ request.category }}</strong></div>
+            <div><span>Assistance needed</span><strong>{{ request.description or 'Not provided' }}</strong></div>
+            <div><span>More details</span><strong>{{ request.elder_details or 'No additional details entered.' }}</strong></div>
+            <div><span>Location</span><strong>{{ request.location or 'Hyderabad' }}</strong></div>
+            <div><span>Date</span><strong>{{ request.date or 'Today' }}</strong></div>
+            <div><span>Time</span><strong>{{ request.time or 'ASAP' }}</strong></div>
+            <div><span>Created by</span><strong>{{ creator.name if creator else 'User' }}</strong></div>
+            <div><span>Current status</span><strong>{{ request.status|title }}</strong></div>
+            <div><span>Assigned helper</span><strong>{{ request.assigned_helper_name or 'Pending assignment' }}</strong></div>
+            <div><span>Created</span><strong>{{ request.created_at.strftime('%d %b %Y, %H:%M') if request.created_at else 'N/A' }}</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card dashboard-card shadow-sm border-0">
+        <div class="card-body">
+          <h5 class="mb-3">Action</h5>
+          {% if request.assigned_helper_id == current_user.id %}
+            {% if request.status in ['accepted', 'in_progress', 'in progress', 'in-progress'] %}
+            <form method="POST" action="{{ url_for('helper.start_request', request_id=request.id) }}" class="mb-2">
+              <button type="submit" class="btn btn-success w-100">Start Support</button>
+            </form>
+            {% endif %}
+            {% if request.status in ['in_progress', 'in progress', 'in-progress'] %}
+            <button type="button" class="btn btn-primary w-100 mb-2" data-bs-toggle="modal" data-bs-target="#completeModal">Complete Request</button>
+            {% endif %}
+          {% elif request.assigned_helper_id is none %}
+            <form method="POST" action="{{ url_for('helper.accept_request', request_id=request.id) }}">
+              <button type="submit" class="btn btn-primary w-100">Accept Request</button>
+            </form>
+          {% else %}
+            <button class="btn btn-outline-secondary w-100" disabled>Assigned to another helper</button>
+          {% endif %}
+          <a href="{{ url_for('helper.dashboard') }}" class="btn btn-outline-dark w-100 mt-2">Back to Dashboard</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="completeModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form method="POST" action="{{ url_for('helper.complete_request', request_id=request.id) }}">
+        <div class="modal-header">
+          <h5 class="modal-title">Complete request</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <label class="form-label">Completion note</label>
+          <textarea class="form-control" name="completion_note" rows="4" placeholder="Describe the assistance completed..."></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Complete Request</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

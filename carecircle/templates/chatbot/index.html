@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card border-0 shadow-sm">
+      <div class="card-body p-4">
+        <h3 class="text-primary">CareCircle Assistant</h3>
+        <div class="chat-window border rounded p-3 bg-light mb-3" id="chatMessages" style="min-height: 300px;">
+          <div class="chat-message bot">
+            <strong>CareCircle</strong><br>
+            I can help with requests, helper status, appointments, and care coordination. What would you like to do?
+          </div>
+          {% for message in messages %}
+            <div class="chat-message {% if message.message_type == 'user' %}user{% else %}bot{% endif %}">
+              <strong>{% if message.message_type == 'user' %}You{% else %}CareCircle{% endif %}</strong><br>
+              {{ message.message }}
+            </div>
+          {% endfor %}
+        </div>
+        <form id="chatForm" method="POST" action="{{ url_for('chatbot.chatbot_ask') }}">
+          <div class="input-group input-group-lg">
+            <input class="form-control" id="chatInput" name="message" placeholder="Type your message..." required>
+            <button class="btn btn-primary" type="submit">Send</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('chatForm');
+    const input = document.getElementById('chatInput');
+    const messages = document.getElementById('chatMessages');
+
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      const text = input.value.trim();
+      if (!text) return;
+
+      const userMessage = document.createElement('div');
+      userMessage.className = 'chat-message user';
+      userMessage.innerHTML = '<strong>You</strong><br>' + text;
+      messages.appendChild(userMessage);
+      input.value = '';
+
+      const formData = new FormData(form);
+      formData.append('ajax', '1');
+
+      fetch(form.action, {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        const botMessage = document.createElement('div');
+        botMessage.className = 'chat-message bot';
+        botMessage.innerHTML = '<strong>CareCircle</strong><br>' + data.reply;
+        messages.appendChild(botMessage);
+        messages.scrollTop = messages.scrollHeight;
+      })
+      .catch(() => {
+        const botMessage = document.createElement('div');
+        botMessage.className = 'chat-message bot';
+        botMessage.innerHTML = '<strong>CareCircle</strong><br>I am unable to reply right now. Please try again.';
+        messages.appendChild(botMessage);
+      });
+    });
+  });
+</script>
+{% endblock %}

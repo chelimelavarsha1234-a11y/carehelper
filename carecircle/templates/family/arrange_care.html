@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center g-4 align-items-center">
+  <div class="col-lg-5">
+    <div class="care-hero-card">
+      <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=900&q=80" alt="Elderly person receiving care">
+      <div class="care-hero-body">
+        <span class="badge rounded-pill bg-success-subtle text-success-emphasis mb-2">Trusted care coordination</span>
+        <h4>Arrange dependable support for your loved one</h4>
+        <p>Choose the family member you are coordinating for and schedule consistent assistance from verified helpers.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-7">
+    <div class="card shadow-sm border-0">
+      <div class="card-body p-4 p-lg-5">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h3 class="text-primary mb-0">Arrange Dedicated Care</h3>
+          <span class="badge bg-primary-subtle text-primary-emphasis rounded-pill">Family support</span>
+        </div>
+
+        <form method="POST">
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Select Elderly Person</label>
+            {% if linked_elders %}
+              <select class="form-select form-select-lg" name="elderly_id" required>
+                <option value="" selected disabled>Choose a loved one</option>
+                {% for elder in linked_elders %}
+                  <option value="{{ elder.id }}">{{ elder.name }}{% if elder.location %} • {{ elder.location }}{% endif %}</option>
+                {% endfor %}
+              </select>
+            {% else %}
+              <div class="alert alert-warning mb-0">No elderly profiles are linked to your account yet. Add a connection first and then return here.</div>
+            {% endif %}
+          </div>
+
+          <div class="row g-3">
+            <div class="col-md-6"><label class="form-label">Start Date</label><input type="date" class="form-control" name="start_date" required {% if not linked_elders %}disabled{% endif %}></div>
+            <div class="col-md-6"><label class="form-label">End Date</label><input type="date" class="form-control" name="end_date" {% if not linked_elders %}disabled{% endif %}></div>
+            <div class="col-md-6"><label class="form-label">Start Time</label><input type="time" class="form-control" name="start_time" value="09:00" {% if not linked_elders %}disabled{% endif %}></div>
+            <div class="col-md-6"><label class="form-label">End Time</label><input type="time" class="form-control" name="end_time" value="18:00" {% if not linked_elders %}disabled{% endif %}></div>
+          </div>
+          <div class="mt-3">
+            <label class="form-label">Support Requirements</label>
+            <textarea class="form-control" name="support_requirements" rows="4" {% if not linked_elders %}disabled{% endif %}>Grocery assistance, meal assistance, doctor appointment accompaniment, companionship</textarea>
+          </div>
+          <button class="btn btn-primary w-100 mt-3 btn-lg" {% if not linked_elders %}disabled{% endif %}>Create Care Request</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4 p-lg-5">
+                <h2 class="text-center text-primary mb-4">Create Your CareCircle Account</h2>
+                <p class="text-center text-muted mb-4">Choose your registration type to create a new portal account.</p>
+
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="card h-100 border-0 bg-light">
+                            <div class="card-body text-center">
+                                <div class="display-5 mb-3">👵</div>
+                                <h4 class="h5">Register as Elderly</h4>
+                                <a href="{{ url_for('auth.register_role', role='elderly') }}" class="btn btn-primary mt-3 w-100">Elderly Registration</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card h-100 border-0 bg-light">
+                            <div class="card-body text-center">
+                                <div class="display-5 mb-3">👨‍👩‍👧</div>
+                                <h4 class="h5">Register as Family</h4>
+                                <a href="{{ url_for('auth.register_role', role='family') }}" class="btn btn-primary mt-3 w-100">Family Registration</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card h-100 border-0 bg-light">
+                            <div class="card-body text-center">
+                                <div class="display-5 mb-3">🤝</div>
+                                <h4 class="h5">Register as Care Helper</h4>
+                                <a href="{{ url_for('auth.register_role', role='helper') }}" class="btn btn-primary mt-3 w-100">Helper Registration</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

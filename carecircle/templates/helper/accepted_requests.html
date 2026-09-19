@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+    <div>
+      <p class="text-uppercase small fw-bold text-primary mb-1">Accepted requests</p>
+      <h2 class="text-primary mb-0">My Accepted Requests</h2>
+    </div>
+    <div class="btn-group" role="group">
+      <a href="{{ url_for('helper.my_accepted_requests', status='all') }}" class="btn btn-sm {{ 'btn-primary' if status_filter == 'all' else 'btn-outline-primary' }}">All</a>
+      <a href="{{ url_for('helper.my_accepted_requests', status='accepted') }}" class="btn btn-sm {{ 'btn-primary' if status_filter == 'accepted' else 'btn-outline-primary' }}">Accepted</a>
+      <a href="{{ url_for('helper.my_accepted_requests', status='in_progress') }}" class="btn btn-sm {{ 'btn-primary' if status_filter == 'in_progress' else 'btn-outline-primary' }}">In Progress</a>
+      <a href="{{ url_for('helper.my_accepted_requests', status='completed') }}" class="btn btn-sm {{ 'btn-primary' if status_filter == 'completed' else 'btn-outline-primary' }}">Completed</a>
+    </div>
+  </div>
+
+  {% if requests %}
+    {% for request in requests %}
+    {% set elder = request.elderly_id %}
+    <div class="card dashboard-card shadow-sm border-0 mb-3">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-start gap-3 flex-wrap">
+          <div>
+            <h5 class="mb-1">{{ request.category }}</h5>
+            <div class="text-muted small">Elder: {{ request.elder_name or 'Unknown person' }}</div>
+          </div>
+          <span class="badge status-badge {{ request.status if request.status in ['accepted','in_progress','completed'] else 'requested' }}">{{ request.status|title }}</span>
+        </div>
+        <div class="request-meta mt-3">
+          <div><span>Assistance</span><strong>{{ request.description or 'General support' }}</strong></div>
+          <div><span>Date</span><strong>{{ request.date or 'Today' }}</strong></div>
+          <div><span>Time</span><strong>{{ request.time or 'ASAP' }}</strong></div>
+          <div><span>Location</span><strong>{{ request.location or 'Hyderabad' }}</strong></div>
+          <div><span>Status</span><strong>{{ request.status|title }}</strong></div>
+        </div>
+        <div class="d-flex gap-2 flex-wrap mt-3">
+          <a href="{{ url_for('helper.request_details', request_id=request.id) }}" class="btn btn-outline-primary btn-sm">View Details</a>
+          {% if request.status in ['accepted', 'in_progress', 'in progress', 'in-progress'] %}
+          <form method="POST" action="{{ url_for('helper.start_request', request_id=request.id) }}" class="d-inline">
+            <button type="submit" class="btn btn-success btn-sm">Start Support</button>
+          </form>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  {% else %}
+    <div class="empty-state">No accepted requests match this filter.</div>
+  {% endif %}
+</div>
+{% endblock %}

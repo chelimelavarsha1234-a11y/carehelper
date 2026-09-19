@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-7">
+    <div class="card shadow-sm border-0">
+      <div class="card-body p-4">
+        <h3 class="text-primary mb-3">Request Help</h3>
+        <form method="POST">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Elder Name</label>
+              <input class="form-control" name="elder_name" value="{{ current_user.name }}" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Phone Number</label>
+              <input class="form-control" name="elder_phone" value="{{ current_user.phone or '' }}" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Age</label>
+              <input class="form-control" type="number" name="elder_age" min="1" value="65">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Category</label>
+              <select class="form-select" name="category">
+                <option>Grocery Assistance</option>
+                <option>Medicine Pickup</option>
+                <option>Doctor Appointment Assistance</option>
+                <option>Transportation Assistance</option>
+                <option>Digital Assistance</option>
+                <option>Companionship</option>
+              </select>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Detailed Assistance Needed</label>
+              <textarea class="form-control" name="description" rows="4" placeholder="Describe the support needed..."></textarea>
+            </div>
+            <div class="col-12">
+              <label class="form-label">More Details</label>
+              <textarea class="form-control" name="elder_details" rows="3" placeholder="Mobility, language, timing preferences, or any extra notes..."></textarea>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Location</label>
+              <input class="form-control" name="location" value="{{ current_user.location }}">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Date</label>
+              <input class="form-control" type="date" name="date">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Time</label>
+              <input class="form-control" type="time" name="time">
+            </div>
+          </div>
+          <button class="btn btn-primary w-100 mt-4">Submit Request</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

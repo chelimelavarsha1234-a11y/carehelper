@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+    <div>
+      <p class="text-uppercase small fw-bold text-primary mb-1">Family portal</p>
+      <h2 class="text-primary mb-0">My loved ones</h2>
+    </div>
+    <a href="{{ url_for('family.arrange_care') }}" class="btn btn-primary btn-lg">Arrange Dedicated Care</a>
+  </div>
+
+  {% if linked_elders %}
+    <div class="row g-4 mb-4">
+      {% for elder in linked_elders %}
+      <div class="col-md-6 col-xl-4">
+        <div class="elder-profile-card">
+          <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=900&q=80" alt="{{ elder.name }}">
+          <div class="elder-profile-body">
+            <div class="d-flex justify-content-between align-items-start gap-2">
+              <div>
+                <h4 class="mb-1">{{ elder.name }}</h4>
+                <p class="mb-0 text-muted">{{ elder.location or 'Location not set' }}</p>
+              </div>
+              <span class="status-pill success">Active</span>
+            </div>
+            <div class="meta-row mt-3">
+              <span>Care plan</span>
+              <strong>{{ 'Scheduled' if dedicated else 'Needs review' }}</strong>
+            </div>
+            <div class="meta-row">
+              <span>Last update</span>
+              <strong>20 mins ago</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="alert alert-info">No linked elderly members found. Add a family connection from registration or ask an admin to link a profile.</div>
+  {% endif %}
+
+  <div class="row g-4 mt-2">
+    <div class="col-md-6">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <h5 class="mb-3">Care Status</h5>
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <span class="status-dot success"></span>
+            <span class="text-success fw-bold">Care Active</span>
+          </div>
+          {% if dedicated %}
+            <p><strong>Helper:</strong> {{ dedicated.helper_id or 'Pending selection' }}</p>
+            <p><strong>Shift:</strong> {{ dedicated.start_time }} - {{ dedicated.end_time }}</p>
+            <p><strong>Support:</strong> {{ dedicated.support_requirements or 'General assistance' }}</p>
+          {% else %}
+            <p><strong>Shift:</strong> No active assignment</p>
+            <p><strong>Support:</strong> No dedicated care request yet</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <h5 class="mb-3">Actions</h5>
+          <div class="d-grid gap-2">
+            <a href="{{ url_for('family.arrange_care') }}" class="btn btn-primary">Arrange Dedicated Care</a>
+            <a href="{{ url_for('family.request_help') }}" class="btn btn-outline-primary">Request Help</a>
+            <a href="{{ url_for('chatbot.chatbot_index') }}" class="btn btn-outline-dark">Chat with Helper</a>
+            <a href="#" class="btn btn-outline-success">View Care Updates</a>
+            <a href="#" class="btn btn-outline-warning">Check In</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

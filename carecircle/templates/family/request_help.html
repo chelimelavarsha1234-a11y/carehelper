@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-6">
+    <div class="card shadow-sm border-0">
+      <div class="card-body p-4">
+        <h3 class="text-primary mb-3">Request Help on behalf of loved one</h3>
+        <form method="POST">
+          <div class="mb-3">
+            <label class="form-label">Elderly Person</label>
+            <select class="form-select" name="elderly_id">
+              {% for elder in linked_elders %}
+              <option value="{{ elder.id }}">{{ elder.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Service Type</label>
+            <select class="form-select" name="category">
+              <option>Grocery Assistance</option>
+              <option>Medicine Pickup</option>
+              <option>Doctor Appointment Assistance</option>
+              <option>Transportation Assistance</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Details</label>
+            <textarea class="form-control" rows="4" name="description"></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Location</label>
+            <input class="form-control" name="location" placeholder="Hyderabad">
+          </div>
+          <button class="btn btn-primary w-100">Search Verified Helpers</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

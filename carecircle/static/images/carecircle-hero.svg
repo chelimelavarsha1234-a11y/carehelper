@@ -1,0 +1,25 @@
+<svg width="900" height="700" viewBox="0 0 900 700" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="900" height="700" rx="36" fill="#EAF5FF"/>
+  <circle cx="690" cy="140" r="66" fill="#F7C98E"/>
+  <circle cx="700" cy="145" r="40" fill="#F9D9B2"/>
+  <rect x="640" y="185" width="120" height="150" rx="28" fill="#E0B68D"/>
+  <rect x="610" y="335" width="180" height="120" rx="28" fill="#75A9DA"/>
+  <rect x="450" y="235" width="170" height="200" rx="24" fill="#F5F9FF"/>
+  <circle cx="330" cy="175" r="62" fill="#F2C69A"/>
+  <circle cx="330" cy="160" r="38" fill="#F7DAB8"/>
+  <rect x="260" y="220" width="150" height="180" rx="26" fill="#7BA6D8"/>
+  <rect x="270" y="410" width="140" height="110" rx="24" fill="#C9E0F7"/>
+  <rect x="60" y="300" width="180" height="160" rx="24" fill="#FFFFFF"/>
+  <rect x="95" y="340" width="110" height="54" rx="14" fill="#DCEEFF"/>
+  <rect x="110" y="420" width="80" height="18" rx="9" fill="#B8D7F5"/>
+  <rect x="520" y="465" width="260" height="92" rx="18" fill="#FFFFFF"/>
+  <path d="M180 170C220 140 270 135 315 160" stroke="#4B7AC7" stroke-width="14" stroke-linecap="round"/>
+  <path d="M630 165C680 145 710 125 740 115" stroke="#4B7AC7" stroke-width="14" stroke-linecap="round"/>
+  <path d="M470 255L380 335" stroke="#7C96B3" stroke-width="10" stroke-linecap="round"/>
+  <path d="M610 255L700 315" stroke="#7C96B3" stroke-width="10" stroke-linecap="round"/>
+  <path d="M155 455H715" stroke="#A7C6EA" stroke-width="12" stroke-linecap="round"/>
+  <circle cx="470" cy="120" r="22" fill="#F3AF6E"/>
+  <circle cx="598" cy="95" r="18" fill="#B3D6F8"/>
+  <circle cx="760" cy="75" r="20" fill="#A6D2BF"/>
+  <text x="450" y="610" font-family="Segoe UI, Arial, sans-serif" font-size="30" font-weight="700" fill="#1D4E89">CareCircle</text>
+</svg>

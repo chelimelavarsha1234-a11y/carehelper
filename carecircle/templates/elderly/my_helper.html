@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-4">
+  <h2 class="text-primary mb-4">My Helper</h2>
+  {% if helper %}
+    {% set helper_profile = helper_profile if helper_profile is defined else None %}
+    <div class="card shadow-sm border-0">
+      <div class="card-body">
+        <h4 class="mb-3">{{ helper.name }}</h4>
+        <p><strong>Phone:</strong> {{ helper.phone }}</p>
+        <p><strong>Location:</strong> {{ helper.location }}</p>
+        {% if helper_profile %}
+          <p><strong>Skills:</strong> {{ helper_profile.skills }}</p>
+          <p><strong>Availability:</strong> {{ helper_profile.availability }}</p>
+        {% else %}
+          <p><strong>Skills:</strong> Not provided</p>
+          <p><strong>Availability:</strong> Not provided</p>
+        {% endif %}
+        <p><strong>Status:</strong> {{ request.status if request else 'Assigned' }}</p>
+      </div>
+    </div>
+  {% else %}
+    <div class="alert alert-warning">No helper has accepted your request yet.</div>
+  {% endif %}
+</div>
+{% endblock %}

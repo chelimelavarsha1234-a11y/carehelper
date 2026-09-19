@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
+                <h2 class="text-center text-primary mb-2">{{ portal_title }}</h2>
+                {% if role != 'general' %}
+                <p class="text-center text-muted mb-4">Access the {{ role.title() }} portal</p>
+                {% endif %}
+                <form method="POST">
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control form-control-lg" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Password</label>
+                        <input type="password" class="form-control form-control-lg" name="password" required>
+                    </div>
+                    {% if role != 'general' %}
+                    <input type="hidden" name="role" value="{{ role }}">
+                    {% endif %}
+                    <button type="submit" class="btn btn-primary w-100 btn-lg">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

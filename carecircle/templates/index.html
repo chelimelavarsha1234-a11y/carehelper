@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="home-hero mb-5">
+    <div class="hero-copy">
+        <span class="eyebrow"><i class="bi bi-heart-pulse-fill"></i> Trusted support for independent living</span>
+        <h1>Care that feels closer, <em>every day.</em></h1>
+        <p class="hero-lead">A warm, reliable circle of family, verified helpers, and simple tools for the moments that matter.</p>
+        <div class="d-flex flex-wrap gap-3 mt-4">
+            <a class="btn btn-sun btn-lg" href="#modules"><i class="bi bi-compass me-2"></i>Find your care path</a>
+            <a class="btn btn-ghost-light btn-lg" href="{{ url_for('auth.register') }}">Join CareCircle <i class="bi bi-arrow-up-right ms-2"></i></a>
+        </div>
+        <div class="hero-proof mt-4">
+            <div class="avatar-stack"><span>LR</span><span>AK</span><span>SR</span><span>+</span></div>
+            <span><strong>One connected circle</strong><br>for everyday peace of mind</span>
+        </div>
+    </div>
+    <div class="hero-scene">
+        <div class="scene-glow"></div>
+        <div class="hero-image-card">
+            <img src="{{ url_for('static', filename='images/carecircle-hero.jpg') }}" alt="CareCircle elderly, family and helper support">
+        </div>
+        <div class="floating-note note-care"><i class="bi bi-check-circle-fill"></i><span><strong>Care matched</strong><small>with someone trusted</small></span></div>
+        <div class="floating-note note-heart"><i class="bi bi-heart-fill"></i><span><strong>Always connected</strong><small>family updates in one place</small></span></div>
+    </div>
+</section>
+
+<section class="quick-stats mb-5" aria-label="CareCircle highlights">
+    <div><strong data-count="24">0</strong><span>hour support mindset</span></div>
+    <div><strong data-count="100">0</strong><span>percent human-centered</span></div>
+    <div><strong data-count="4">0</strong><span>connected care paths</span></div>
+    <div class="tip-stat"><i class="bi bi-stars"></i><span id="careTip">Small check-ins can make a big difference.</span></div>
+</section>
+
+<div id="modules" class="portal-heading">
+    <div><span class="eyebrow eyebrow-dark">Choose your care path</span><h2>There is a place for everyone.</h2></div>
+    <p>Start where you are. CareCircle keeps every step simple and visible.</p>
+</div>
+<div class="row g-4 mt-2">
+    <div class="col-md-6 col-xl-3">
+        <div class="card h-100 border-0 shadow-sm feature-card portal-elderly">
+            <div class="card-body p-4">
+                <div class="portal-icon"><i class="bi bi-house-heart-fill"></i></div>
+                <h3 class="h4">Elderly Support</h3>
+                <p class="text-muted">Request everyday help, view your helper, manage appointments and stay connected with family.</p>
+                <a class="btn btn-portal w-100" href="{{ url_for('auth.elderly_login') }}">Enter portal <i class="bi bi-arrow-right ms-2"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-xl-3">
+        <div class="card h-100 border-0 shadow-sm feature-card portal-family">
+            <div class="card-body p-4">
+            <div class="portal-icon"><i class="bi bi-people-fill"></i></div>
+            <h3 class="h4">Family Portal</h3>
+                <p class="text-muted">Arrange support for your loved ones, appoint dedicated helpers and stay updated about their care.</p>
+                <a class="btn btn-portal w-100" href="{{ url_for('auth.family_login') }}">Enter portal <i class="bi bi-arrow-right ms-2"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-xl-3">
+        <div class="card h-100 border-0 shadow-sm feature-card portal-helper">
+            <div class="card-body p-4">
+            <div class="portal-icon"><i class="bi bi-hand-thumbs-up-fill"></i></div>
+            <h3 class="h4">Care Helper</h3>
+                <p class="text-muted">View support requests, accept assignments, provide dedicated care and communicate with families.</p>
+                <a class="btn btn-portal w-100" href="{{ url_for('auth.helper_login') }}">Enter portal <i class="bi bi-arrow-right ms-2"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-xl-3">
+        <div class="card h-100 border-0 shadow-sm feature-card portal-admin">
+            <div class="card-body p-4">
+            <div class="portal-icon"><i class="bi bi-shield-lock-fill"></i></div>
+            <h3 class="h4">Admin Portal</h3>
+                <p class="text-muted">Verify helpers, manage users, monitor requests and maintain platform safety.</p>
+                <a class="btn btn-portal w-100" href="{{ url_for('auth.admin_login') }}">Enter portal <i class="bi bi-arrow-right ms-2"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5 align-items-center home-values">
+    <div class="col-lg-6">
+        <div class="p-4 rounded-4 bg-white shadow-sm">
+            <h3 class="text-primary">Why CareCircle works</h3>
+            <ul class="list-unstyled mt-3 feature-list">
+                <li>✔ Verified care helpers with clear matching</li>
+                <li>✔ Family-led arrangement for dedicated care</li>
+                <li>✔ Assisted communication for elderly users</li>
+                <li>✔ Safety-focused support and emergency guidance</li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <img src="{{ url_for('static', filename='images/carecircle-hero.jpg') }}" class="img-fluid rounded-4 shadow-sm" alt="CareCircle care coordination visual">
+    </div>
+</div>
+{% endblock %}

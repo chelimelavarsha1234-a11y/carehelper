@@ -1,0 +1,244 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-4 helper-dashboard">
+  <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+    <div>
+      <p class="text-uppercase small fw-bold text-primary mb-1">Care Helper</p>
+      <h2 class="text-primary mb-0">Welcome, {{ current_user.name }}</h2>
+      <div class="text-muted">{{ profile.service_area or current_user.location or 'Care Helper' }}</div>
+    </div>
+    <div class="d-flex gap-2 flex-wrap">
+      <span class="badge status-badge verified"><i class="bi bi-shield-check me-1"></i>{{ profile.verification_status|title if profile else 'Verified' }} Care Helper</span>
+      <span class="badge status-badge available"><i class="bi bi-circle-fill me-1"></i>{{ profile.availability if profile else 'Available' }}</span>
+    </div>
+  </div>
+
+  <div class="row g-3 mb-4">
+    <div class="col-md-6 col-xl-4">
+      <div class="summary-card summary-blue">
+        <span class="summary-label"><i class="bi bi-bell"></i> New Requests</span>
+        <strong>{{ new_request_cards|length }}</strong>
+      </div>
+    </div>
+    <div class="col-md-6 col-xl-4">
+      <div class="summary-card summary-green">
+        <span class="summary-label"><i class="bi bi-check2-circle"></i> Accepted</span>
+        <strong>{{ active_request_cards|length }}</strong>
+      </div>
+    </div>
+    <div class="col-md-6 col-xl-4">
+      <div class="summary-card summary-gold">
+        <span class="summary-label"><i class="bi bi-calendar3"></i> Today's Support</span>
+        <strong>{{ today_support }}</strong>
+      </div>
+    </div>
+    <div class="col-md-6 col-xl-4">
+      <div class="summary-card summary-purple">
+        <span class="summary-label"><i class="bi bi-heart-pulse"></i> Dedicated Care</span>
+        <strong>{{ assignment_cards|length }}</strong>
+      </div>
+    </div>
+    <div class="col-md-6 col-xl-4">
+      <div class="summary-card summary-slate">
+        <span class="summary-label"><i class="bi bi-clipboard-check"></i> Completed</span>
+        <strong>{{ completed_count }}</strong>
+      </div>
+    </div>
+    <div class="col-md-6 col-xl-4">
+      <div class="summary-card summary-rose">
+        <span class="summary-label"><i class="bi bi-envelope"></i> Notifications</span>
+        <strong>{{ notifications|length }}</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-xl-8">
+      <div class="card dashboard-card shadow-sm border-0 mb-4">
+        <div class="card-body">
+          <div class="section-header mb-3">
+            <h4 class="mb-0"><i class="bi bi-list-task me-2"></i>New Requests</h4>
+            <a class="small-link" href="{{ url_for('helper.my_accepted_requests') }}">View accepted</a>
+          </div>
+          {% if new_request_cards %}
+            {% for item in new_request_cards %}
+            {% set req = item.request %}
+            {% set elder = item.elder %}
+            {% set family_member = item.family_member %}
+            <div class="request-card mb-3">
+              <div class="d-flex justify-content-between align-items-start gap-3 flex-wrap">
+                <div>
+                  <h5 class="mb-1">{{ req.category }}</h5>
+                  <div class="text-muted small">Elder: {{ elder.name if elder else 'Unknown' }} • Age: {{ elder.age if elder else 'N/A' }}</div>
+                </div>
+                <span class="badge status-badge requested">{{ req.status|title }}</span>
+              </div>
+
+              <div class="request-meta mt-3">
+                <div><span>Need</span><strong>{{ req.description or 'Need everyday support.' }}</strong></div>
+                <div><span>More details</span><strong>{{ req.elder_details or 'No extra details provided.' }}</strong></div>
+                <div><span>Location</span><strong>{{ req.location or 'Hyderabad' }}</strong></div>
+                <div><span>Date</span><strong>{{ req.date or 'Today' }}</strong></div>
+                <div><span>Time</span><strong>{{ req.time or 'ASAP' }}</strong></div>
+                <div><span>Created by</span><strong>{{ 'Family member' if family_member else 'Elderly user' }}</strong></div>
+              </div>
+
+              <div class="d-flex gap-2 flex-wrap mt-3">
+                <a href="{{ url_for('helper.request_details', request_id=req.id) }}" class="btn btn-outline-primary btn-sm">View Details</a>
+                <form method="POST" action="{{ url_for('helper.accept_request', request_id=req.id) }}" class="d-inline">
+                  <button type="submit" class="btn btn-primary btn-sm">Accept Request</button>
+                </form>
+              </div>
+            </div>
+            {% endfor %}
+          {% else %}
+            <div class="empty-state">No new requests right now.</div>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="card dashboard-card shadow-sm border-0 mb-4">
+        <div class="card-body">
+          <div class="section-header mb-3">
+            <h4 class="mb-0"><i class="bi bi-check2-square me-2"></i>Accepted Requests</h4>
+            <a class="small-link" href="{{ url_for('helper.my_accepted_requests') }}">History</a>
+          </div>
+          {% if accepted_request_cards %}
+            {% for item in accepted_request_cards %}
+            {% set req = item.request %}
+            {% set elder = item.elder %}
+            {% set family_member = item.family_member %}
+            <div class="request-card mb-3">
+              <div class="d-flex justify-content-between align-items-start gap-3 flex-wrap">
+                <div>
+                  <h5 class="mb-1">{{ req.category }}</h5>
+                  <div class="text-muted small">Elder: {{ elder.name if elder else 'Unknown' }}</div>
+                </div>
+                <span class="badge status-badge accepted">{{ req.status|title }}</span>
+              </div>
+              <div class="request-meta mt-3">
+                <div><span>Date</span><strong>{{ req.date or 'Today' }}</strong></div>
+                <div><span>Time</span><strong>{{ req.time or 'ASAP' }}</strong></div>
+                <div><span>Location</span><strong>{{ req.location or 'Hyderabad' }}</strong></div>
+                <div><span>Family</span><strong>{{ family_member.name if family_member else 'Not applicable' }}</strong></div>
+              </div>
+              <div class="d-flex gap-2 flex-wrap mt-3">
+                <a href="{{ url_for('helper.request_details', request_id=req.id) }}" class="btn btn-outline-secondary btn-sm">View Details</a>
+                {% if req.status in ['accepted', 'in_progress', 'in progress', 'in-progress'] %}
+                <form method="POST" action="{{ url_for('helper.start_request', request_id=req.id) }}" class="d-inline">
+                  <button type="submit" class="btn btn-success btn-sm">Start Support</button>
+                </form>
+                {% endif %}
+                {% if req.status in ['in_progress', 'in progress', 'in-progress'] %}
+                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#completeModal{{ req.id }}">Complete Request</button>
+                {% endif %}
+              </div>
+            </div>
+            {% endfor %}
+          {% else %}
+            <div class="empty-state">No accepted requests yet.</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-4">
+      <div class="card dashboard-card shadow-sm border-0 mb-4">
+        <div class="card-body">
+          <div class="section-header mb-3">
+            <h4 class="mb-0"><i class="bi bi-chat-left-text me-2"></i>Notifications</h4>
+          </div>
+          {% if notifications %}
+            {% for note in notifications %}
+            <div class="notification-item">
+              <div class="dot"></div>
+              <div>
+                <div>{{ note.message }}</div>
+                <small>{{ note.created_at.strftime('%d %b %Y, %H:%M') if note.created_at else 'Recently' }}</small>
+              </div>
+            </div>
+            {% endfor %}
+          {% else %}
+            <div class="empty-state">No notifications yet.</div>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="card dashboard-card shadow-sm border-0">
+        <div class="card-body">
+          <div class="section-header mb-3">
+            <h4 class="mb-0"><i class="bi bi-person-heart me-2"></i>Dedicated Care</h4>
+          </div>
+          {% if assignment_cards %}
+            {% for item in assignment_cards %}
+            {% set care = item.care %}
+            {% set elder = item.elder %}
+            {% set family = item.family %}
+            <div class="request-card mb-3">
+              <div class="d-flex justify-content-between align-items-start gap-3 flex-wrap">
+                <div>
+                  <h5 class="mb-1">Elder: {{ elder.name if elder else 'Unknown' }}</h5>
+                  <div class="text-muted small">Family: {{ family.name if family else 'Family member' }}</div>
+                </div>
+                <span class="badge status-badge pending">{{ care.status|title }}</span>
+              </div>
+              <div class="request-meta mt-3">
+                <div><span>Dates</span><strong>{{ care.start_date }} - {{ care.end_date or care.start_date }}</strong></div>
+                <div><span>Time</span><strong>{{ care.start_time }} - {{ care.end_time }}</strong></div>
+                <div><span>Requirement</span><strong>{{ care.support_requirements or 'General support' }}</strong></div>
+              </div>
+              <div class="d-flex gap-2 flex-wrap mt-3">
+                {% if care.helper_id is none %}
+                <form method="POST" action="{{ url_for('helper.accept_dedicated', id=care.id) }}" class="d-inline">
+                  <button type="submit" class="btn btn-success btn-sm">Accept Assignment</button>
+                </form>
+                {% elif care.helper_id == current_user.id %}
+                <form method="POST" action="{{ url_for('helper.checkin', care_id=care.id) }}" class="d-inline">
+                  <input type="hidden" name="daily_note" value="Checked in for dedicated care.">
+                  <button class="btn btn-outline-primary btn-sm" type="submit">Check In</button>
+                </form>
+                <form method="POST" action="{{ url_for('helper.add_care_note', care_id=care.id) }}" class="d-inline">
+                  <input type="hidden" name="care_note" value="Care provided as planned.">
+                  <button class="btn btn-outline-secondary btn-sm" type="submit">Add Care Note</button>
+                </form>
+                <form method="POST" action="{{ url_for('helper.checkout', care_id=care.id) }}" class="d-inline">
+                  <button class="btn btn-outline-dark btn-sm" type="submit">Check Out</button>
+                </form>
+                {% endif %}
+              </div>
+            </div>
+            {% endfor %}
+          {% else %}
+            <div class="empty-state">No dedicated care assignments yet.</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% for item in accepted_request_cards %}
+{% set req = item.request %}
+<div class="modal fade" id="completeModal{{ req.id }}" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form method="POST" action="{{ url_for('helper.complete_request', request_id=req.id) }}">
+        <div class="modal-header">
+          <h5 class="modal-title">Complete request</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <label class="form-label">Completion note</label>
+          <textarea class="form-control" name="completion_note" rows="4" placeholder="Describe the support provided..."></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Complete Request</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card shadow-sm border-0">
+      <div class="card-body p-4">
+        <h3 class="text-primary mb-3">Appointments</h3>
+        <form method="POST">
+          <div class="row g-3">
+            <div class="col-md-6"><label class="form-label">Hospital / Clinic</label><input class="form-control" name="hospital" required></div>
+            <div class="col-md-6"><label class="form-label">Doctor</label><input class="form-control" name="doctor" required></div>
+            <div class="col-md-4"><label class="form-label">Date</label><input class="form-control" type="date" name="date" required></div>
+            <div class="col-md-4"><label class="form-label">Time</label><input class="form-control" type="time" name="time" required></div>
+            <div class="col-md-4"><label class="form-label">Location</label><input class="form-control" name="location" required></div>
+            <div class="col-md-12"><label class="form-label">Notes</label><textarea class="form-control" name="notes" rows="3"></textarea></div>
+            <div class="col-md-12"><div class="form-check"><input class="form-check-input" type="checkbox" name="need_companion" value="1"><label class="form-check-label">Need companion</label></div></div>
+          </div>
+          <button class="btn btn-primary mt-3 w-100">Add Appointment</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

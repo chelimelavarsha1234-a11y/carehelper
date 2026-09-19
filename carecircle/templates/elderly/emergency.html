@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-4">
+  <div class="card shadow-sm border-0 border-danger border-2">
+    <div class="card-body p-4">
+      <h2 class="text-danger mb-3">Emergency Help</h2>
+      <p class="mb-3">If this is a medical emergency or immediate danger, contact emergency services first.</p>
+      <div class="alert alert-danger">
+        <strong>Important:</strong> CareCircle does not replace emergency services.
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><strong>Emergency Number:</strong> 112</li>
+        <li class="list-group-item"><strong>Family Contact:</strong> {{ current_user.name }}</li>
+        <li class="list-group-item"><strong>Location:</strong> {{ current_user.location or 'Not specified' }}</li>
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}
