@@ -27,6 +27,16 @@ python app.py
 
 Open: http://127.0.0.1:5000/
 
+## Deploy
+
+Set the deployment service's root directory to `carecircle` and use the start command:
+
+```text
+gunicorn app:app --bind 0.0.0.0:$PORT
+```
+
+The included `Procfile` contains the same command. The service must be a Python web service, not a static-site or GitHub Pages deployment.
+
 ## Demo accounts
 - Admin: admin@carecircle.com / admin123
 - Elderly: lakshmi@carecircle.com / lakshmi123
