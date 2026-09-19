@@ -8,7 +8,7 @@ At the same time, their children or family members may live in another city or c
 The key question is:
 What happens when an elderly person needs everyday help but cannot request it themselves?
 Sure. Here is the same Proposed Solution in very simple language, suitable for your short write-up.
-## 3. Proposed Solution 
+# 3. Proposed Solution 
   CareCircle is a website that helps elderly people get everyday support when their family members cannot be nearby. It connects elderly people, family members, and verified helpers in one platform.
 1. Four Modules
   •	Elderly: The elderly person can request help for groceries, appointments, transportation, companionship, etc.
